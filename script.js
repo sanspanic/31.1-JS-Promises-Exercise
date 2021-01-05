@@ -32,3 +32,34 @@ for (let i = 1; i < 5; i++) {
 Promise.all(fourFactsPromises).then(function (res) {
   res.forEach((res) => console.log(res.data.text));
 });
+
+//ASYNC INSTEAD OF PROMISES
+
+let favNumber = 5;
+let baseURL = "http://numbersapi.com";
+
+// 1.
+async function part1() {
+  let res = await axios.get(`${baseURL}/${favNumber}?json`);
+  console.log(res.data);
+}
+part1();
+
+// 2.
+const favNumbers = [2, 4, 16];
+async function part2() {
+  let res = await axios.get(`${baseURL}/${favNumbers}?json`);
+  console.log(res.data);
+}
+part2();
+
+// 3.
+async function part3() {
+  let facts = await Promise.all(
+    Array.from({ length: 4 }, () => axios.get(`${baseURL}/${favNumber}?json`))
+  );
+  facts.forEach((res) => {
+    $("body").append(`<p>${res.data.text}</p>`);
+  });
+}
+part3();
